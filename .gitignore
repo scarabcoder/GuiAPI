@@ -17,3 +17,4 @@ gradle-app.setting
 target/
 *.iml
 dependency-reduced-pom.xml
+test/
