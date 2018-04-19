@@ -8,7 +8,7 @@ sealed class GuiComponent {
 
     val id: UUID = UUID.randomUUID()
     var action: (Player) -> Unit = {}
-    var item: ItemBuilder = ItemBuilder(Material.AIR)
+    var item: ItemBuilder = ItemBuilder(Material.STONE)
 
 }
 

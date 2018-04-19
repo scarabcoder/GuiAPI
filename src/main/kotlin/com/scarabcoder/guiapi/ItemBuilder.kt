@@ -1,17 +1,24 @@
 package com.scarabcoder.guiapi
 
+import org.bukkit.Bukkit
 import org.bukkit.DyeColor
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
+import org.bukkit.inventory.meta.SkullMeta
 
 class ItemBuilder (var type: Material) {
 
     var name: String? = null
-    var lore: List<String> = ArrayList()
+    var lore: ArrayList<String> = ArrayList()
     var amount: Int = 1
     var enchantEffect = false
     var color: DyeColor = DyeColor.WHITE
+    var data: Int = 0
+    var skullOwner: String? = null
 
     val itemStack: ItemStack
     get() {
@@ -25,7 +32,20 @@ class ItemBuilder (var type: Material) {
                 im as LeatherArmorMeta
                 im.color = color.color
             }
-            else -> {}
+            Material.SKULL_ITEM -> {
+                if(skullOwner != null) {
+                    stack.durability = 3
+                    im as SkullMeta
+                    im.owningPlayer = Bukkit.getPlayer(skullOwner!!)
+                }
+            }
+            else -> {
+                stack.durability = data.toShort()
+            }
+        }
+        if(enchantEffect) {
+            im.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+            im.addEnchant(Enchantment.LUCK, 1, true)
         }
         stack.itemMeta = im
         return stack
